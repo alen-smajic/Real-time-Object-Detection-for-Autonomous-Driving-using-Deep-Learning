@@ -24,7 +24,5 @@
 ## Publications ##
   
 ## Tools ## 
-* Blender
-* Unity
 
 ## Results ##
