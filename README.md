@@ -3,12 +3,6 @@
 ## General Information
 <img align="right" width="300" height="" src="https://upload.wikimedia.org/wikipedia/commons/1/1e/Logo-Goethe-University-Frankfurt-am-Main.svg">
 
-**Project team:**
-* Duy Anh Tran
-* Pascal Fischer
-* Alen Smajic
-* Yujin So
-
 **Instructors:**
 * [Prof. Dr. Gemma Roig](http://www.cvai.cs.uni-frankfurt.de/team.html), email: roig@cs.uni-frankfurt.de
 * Dr. Iuliia Pliushch
@@ -18,8 +12,14 @@
 **Institutions:**
   * **[Goethe University](http://www.informatik.uni-frankfurt.de/index.php/en/)**
   * **[Computational Vision & Artificial Intelligence](http://www.cvai.cs.uni-frankfurt.de/index.html)**
-  
-**Project description:**
+
+**Project team:**
+* Duy Anh Tran
+* Pascal Fischer
+* Alen Smajic
+* Yujin So
+
+## Project Description ##
 
 ## Publications ##
   
