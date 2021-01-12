@@ -22,8 +22,12 @@
 ## Project Description ##
 This project is still in development.
 
-- [ ] Test
-- [x] Test2
+- [x] Find a dataset
+- [x] Implement the Data loader
+- [x] Implement the YOLO model
+- [x] Implement the YOLO Loss function 
+- [ ] Implement the training loop
+- [ ] Evaluate the performance
 
 ## Publications ##
   
