@@ -22,7 +22,7 @@
 ## Project Description ##
 This project is still in development.
 
-- [] Test
+- [ ] Test
 - [x] Test2
 
 ## Publications ##
