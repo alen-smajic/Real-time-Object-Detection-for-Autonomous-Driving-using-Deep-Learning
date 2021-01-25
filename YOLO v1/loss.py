@@ -1,5 +1,5 @@
 import torch
-from utils import (IoU, MidtoCorner)
+from utils import IoU, MidtoCorner
 
 
 class YOLO_Loss():
@@ -95,29 +95,29 @@ class YOLO_Loss():
             class_loss_local (float): Loss value for the class scores.
         """
         
-        # Finds the box with the highest IoU and stores its index in best_box
+        # Finds the box with the highest IoU with respect to the ground-truth and stores its index in best_box
         if self.num_boxes != 1:
             best_box = self.find_best_box(sample, cell_h, cell_w)
         else:
             best_box = 0
         
         # Calculates the loss for the centre coordinates
-        x_loss = (self.targets[sample, cell_h, cell_w, 1] - self.predictions[sample, cell_h, cell_w, 1+best_box*5])**2        
-        y_loss = (self.targets[sample, cell_h, cell_w, 2] - self.predictions[sample, cell_h, cell_w, 2+best_box*5])**2
+        x_loss = torch.square(self.targets[sample, cell_h, cell_w, 1] - self.predictions[sample, cell_h, cell_w, 1+best_box*5])        
+        y_loss = torch.square(self.targets[sample, cell_h, cell_w, 2] - self.predictions[sample, cell_h, cell_w, 2+best_box*5])
         mid_loss_local = x_loss + y_loss
                 
         # Calculates the loss for the width and height values
-        w_loss = (torch.sqrt(self.targets[sample, cell_h, cell_w, 3]) - torch.sqrt(self.predictions[sample, cell_h, cell_w, 3+best_box*5]))**2
-        h_loss = (torch.sqrt(self.targets[sample, cell_h, cell_w, 4]) - torch.sqrt(self.predictions[sample, cell_h, cell_w, 4+best_box*5]))**2
+        w_loss = torch.square(torch.sqrt(self.targets[sample, cell_h, cell_w, 3]) - torch.sqrt(self.predictions[sample, cell_h, cell_w, 3+best_box*5]))
+        h_loss = torch.square(torch.sqrt(self.targets[sample, cell_h, cell_w, 4]) - torch.sqrt(self.predictions[sample, cell_h, cell_w, 4+best_box*5]))
         dim_loss_local = w_loss + h_loss
                 
         # Calculates the loss of the confidence score
-        conf_loss_local = (1 - self.predictions[sample, cell_h, cell_w, best_box*5])**2
+        conf_loss_local = torch.square(1 - self.predictions[sample, cell_h, cell_w, best_box*5])
                 
         # Calculates the loss for the class scores
         class_loss_local = 0.
         for c in range(self.num_classes):
-            class_loss_local += (self.targets[sample, cell_h, cell_w, 5+c] - self.predictions[sample, cell_h, cell_w, 5*self.num_boxes+c])**2
+            class_loss_local += torch.square(self.targets[sample, cell_h, cell_w, 5+c] - self.predictions[sample, cell_h, cell_w, 5*self.num_boxes+c])
             
         return mid_loss_local, dim_loss_local, conf_loss_local, class_loss_local
                         
@@ -147,6 +147,6 @@ class YOLO_Loss():
             box_score = IoU(t_box_coords, p_box_coords)
             if box_score > max_iou:
                 max_iou = box_score
-                best_box = box # Store the box order with the highest IoU          
+                best_box = box # Store the box index with the highest IoU          
                 
         return best_box

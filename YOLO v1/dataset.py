@@ -107,6 +107,9 @@ class DataLoader():
         if target_tensor is not None: # Checks if the label contains any data
             self.img_tensors.append(img_tensor)
             self.target_tensors.append(target_tensor)
+        else:
+            print("No label found for " + chosen_image) # Log the image without label
+            print("")
 
         
     def extract_image(self):   
@@ -191,9 +194,11 @@ class DataLoader():
             cell_pos_x = int(x_mid // cell_dim)
             cell_pos_y = int(y_mid // cell_dim)
 
-            # Stores the information inside the target_tensor
-            if target_tensor[cell_pos_y][cell_pos_x][0] == 1: # Check if the cell already contains an object
+            # Check if the cell already contains an object
+            if target_tensor[cell_pos_y][cell_pos_x][0] == 1:
                 continue
+            
+            # Stores the information inside the target_tensor
             target_tensor[cell_pos_y][cell_pos_x][0] = 1
             target_tensor[cell_pos_y][cell_pos_x][1] = (x_mid % cell_dim) / cell_dim
             target_tensor[cell_pos_y][cell_pos_x][2] = (y_mid % cell_dim) / cell_dim

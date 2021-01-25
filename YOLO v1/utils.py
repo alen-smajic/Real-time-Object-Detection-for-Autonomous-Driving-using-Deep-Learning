@@ -1,4 +1,7 @@
 import torch
+import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
 
 
 def IoU(target, prediction):
@@ -32,14 +35,14 @@ def MidtoCorner(mid_box, cell_h, cell_w, cell_dim):
     with the correct pixel locations.
     
     Parameters:
-        mid_box (list): Bounding box coordinates which are in the mid YOLO format.
+        mid_box (list): Bounding box coordinates which are in the mid YOLO format [x_mid, y_mid, width, height].
         cell_h (int): Height index of the cell with the bounding box.
         cell_w (int): Width index of the cell with the bounding box.
         cell_dim (int): Dimension of a single cell.
         
     Returns:
         corner_box (list): A list containing the coordinates of the bounding box in the common
-        corner format.
+        corner format [x1, y2, x2, y2].
     """
     
     # Transform the coordinates from the YOLO format into normal pixel values
@@ -59,11 +62,59 @@ def MidtoCorner(mid_box, cell_h, cell_w, cell_dim):
 
 
 def load_checkpoint(checkpoint, model, optimizer):
+    """
+    Loads the model weights and optimizer state (the checkpoint).
+    
+    Parameters:
+        checkpoint (string): The file from which the checkpoint is being loaded.
+        model (): The model which is being overwritten by the checkpoint.
+        optimizer (): The optimizer which is being overwritten by the checkpoint.
+    """
     print("=> Loading checkpoint")
+    print("")
     model.load_state_dict(checkpoint["state_dict"])
     optimizer.load_state_dict(checkpoint["optimizer"])
     
 
 def save_checkpoint(state, filename):
+    """
+    Saves the model weights and optimizer state (the checkpoint).
+    
+    Parameters:
+        state (dict): A dictionary containing the model- and optimizer-state.
+        filename (string): The file to which the checkpoint is saved.
+    """
     print("=> Saving checkpoint")
+    print("")
     torch.save(state, filename)
+    
+
+
+
+"""
+def plot_image(image, boxes):
+    img = np.array(image)
+    height, width, _ = img.shape
+    
+    # Create figure and axes
+    fig, ax = plt.subplots(1)
+    # Display the image
+    ax.imshow(img)
+    
+    # Create a rectangle potch
+    for box in boxes:
+        box = box[2:]
+        assert len(box) == 4, "Got more values than in x, y, w, h, in a box!"
+        upper_left_x = box[0] - box[2] / 2
+        upper_left_y = box[1] - box[3] / 2
+        rect = patches.Rectangle(
+            (upper_left_x * width, upper_left_y * height),
+            box[2] * width,
+            box[3] * height,
+            linewidth=1,
+            edgecolor="r",
+            facecolor="none",    
+        )
+        # Add the patch to thee axes
+        ax.add_patch(rect)
+"""       
