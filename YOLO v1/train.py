@@ -3,26 +3,42 @@ from dataset import DataLoader
 from utils import save_checkpoint
 
 
-def TrainNetwork(num_epochs, train_img_files_path, train_target_files_path, category_list, split_size, batch_size, load_size, model, device, num_boxes, num_classes, lambda_coord, lambda_noobj, optimizer, load_model_file):
+def TrainNetwork(    
+    num_epochs, 
+    split_size, 
+    batch_size, 
+    load_size, 
+    num_boxes, 
+    num_classes,    
+    train_img_files_path, 
+    train_target_files_path, 
+    category_list,     
+    model, 
+    device, 
+    optimizer, 
+    load_model_file,
+    lambda_coord, 
+    lambda_noobj, 
+    ):
     """
     Starts the training process of the model.
     
     Parameters:
         num_epochs (int): Amount of epochs for training the model.
-        train_img_files_path (str): System path to the image folder containing the train images.
-        train_target_files_path (str): System path to the target folder containing the json file with the ground-truth labels.
-        category_list (list): A list containing all ground-truth classes.
         split_size (int): Size of the grid which is applied to the images.
         batch_size (int): Batch size.
         load_size (int): Amount of batches which are loaded in one function call.
-        model (): The YOLOv1-model 
-        device (): The device used for training 
         num_boxes (int): Amount of boxes which are being predicted per grid cell.
-        num_classes (int): Amount of classes which are being predicted.
-        lambda_cooord (float): Hyperparameter for the loss regarding the bounding box coordinates.
-        lambda_noobj (float): Hyperparameter for the loss in case there is no object in that cell.
+        num_classes (int): Amount of classes which are being predicted.        
+        train_img_files_path (str): System path to the image folder containing the train images.
+        train_target_files_path (str): System path to the target folder containing the json file with the ground-truth labels.
+        category_list (list): A list containing all ground-truth classes.
+        model (): The YOLOv1-model. 
+        device (): The device used for training.
         optimizer (): Algorithm for updating the model weights.
         load_model_file (str): Name of the file used to store/load train checkpoints.
+        lambda_cooord (float): Hyperparameter for the loss regarding the bounding box coordinates.
+        lambda_noobj (float): Hyperparameter for the loss in case there is no object in that cell.
     """
     
     # Initialize the DataLoader for the train dataset

@@ -29,7 +29,7 @@ threshold = 0.5
 # Other parameters
 cell_dim = int(448/split_size)
 num_classes = len(category_list)
-load_model = True
+load_model = False
 load_model_file = "YOLO_bdd100k.pth"
 
 
@@ -53,7 +53,23 @@ def main():
     # Start the training process
     print("###################### STARTING TRAINING ######################")
     print("")
-    TrainNetwork(num_epochs, train_img_files_path, train_target_files_path, category_list, split_size, batch_size, load_size, model, device, num_boxes, num_classes, lambda_coord, lambda_noobj, optimizer, load_model_file)
+    TrainNetwork(    
+        num_epochs, 
+        split_size, 
+        batch_size, 
+        load_size, 
+        num_boxes, 
+        num_classes,    
+        train_img_files_path, 
+        train_target_files_path, 
+        category_list,     
+        model, 
+        device, 
+        optimizer, 
+        load_model_file,
+        lambda_coord, 
+        lambda_noobj, 
+    )
     
     # Start the validation process to calculate the final model performance on the test set
     print("###################### STARTING VALIDATION ######################")
