@@ -1,6 +1,8 @@
+import torch
 from loss import YOLO_Loss
 from dataset import DataLoader
 from utils import save_checkpoint
+import time
 
 
 def TrainNetwork(    
@@ -44,19 +46,17 @@ def TrainNetwork(
     # Initialize the DataLoader for the train dataset
     data = DataLoader(train_img_files_path, train_target_files_path, category_list, split_size, batch_size, load_size)
     
-    loss_progress = [] # Stores the loss for the latter train analysis
-    
     for epoch in range(num_epochs):
         model.train()
         
-        epoch_mean_loss = [] # Used to store the loss for every batch to calculate the average loss of an epoch
+        epoch_losses = [] # Stores the loss progress 
     
         print("DATA IS BEING LOADED FOR A NEW EPOCH")
         print("")
         data.LoadFiles() # Resets the DataLoader for a new epoch
 
         while len(data.img_files) > 0:
-            all_batch_loss = 0. # Used to track the training loss
+            all_batch_losses = 0. # Used to track the training loss
             
             print("LOADING NEW BATCHES")            
             print("Remaining files:" + str(len(data.img_files)))
@@ -71,9 +71,8 @@ def TrainNetwork(
                 
                 yolo_loss = YOLO_Loss(predictions, target_data, split_size, num_boxes, num_classes, lambda_coord, lambda_noobj)
                 yolo_loss.loss()
-                loss = yolo_loss.final_loss                
-                epoch_mean_loss.append(loss.item()) 
-                all_batch_loss += loss.item()
+                loss = yolo_loss.final_loss          
+                all_batch_losses += loss.item()
                 
                 optimizer.zero_grad()
                 loss.backward()
@@ -83,11 +82,13 @@ def TrainNetwork(
                     epoch+1, num_epochs, batch_idx+1, len(data.data),
                     (batch_idx+1) / len(data.data) * 100., loss))
                 print('')
-             
-            loss_progress.append(all_batch_loss / len(data.data))
-            print(loss_progress)
-                
-        print(f"Mean loss for this epoch was {sum(epoch_mean_loss)/len(epoch_mean_loss)}")
+
+            epoch_losses.append(all_batch_losses / len(data.data))
+            print("Loss progress so far:", epoch_losses)
+            print("")
+  
+        torch.save(epoch_losses, "epoch_" + epoch + "_losses.pt")     
+        print(f"Mean loss for this epoch was {sum(epoch_losses)/len(epoch_losses)}")
         print("")
 
         checkpoint = {
@@ -95,5 +96,5 @@ def TrainNetwork(
             "optimizer": optimizer.state_dict(),
         }
         save_checkpoint(checkpoint, filename=load_model_file)
-        import time
+
         time.sleep(10)

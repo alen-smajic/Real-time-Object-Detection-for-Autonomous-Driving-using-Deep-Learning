@@ -99,15 +99,14 @@ class YOLOv1(nn.Module):
             nn.Conv2d(1024, 1024, 3, padding=1, bias=False), # -> 1024,14,14
                 nn.BatchNorm2d(1024),
                 nn.LeakyReLU(0.1, inplace=True),
-            nn.Conv2d(1024, 1024, 3, padding=1, stride=2, bias=False), # -> 1024,7,7
-            #nn.Conv2d(1024, 1024, 3, padding=1, bias=False), # -> 1024,14,14
+            nn.Conv2d(1024, 1024, 3, padding=1, bias=False), # -> 1024,14,14 
                 nn.BatchNorm2d(1024),
                 nn.LeakyReLU(0.1, inplace=True),
             
-            nn.Conv2d(1024, 1024, 3, padding=1, bias=False), # -> 1024,7,7
+            nn.Conv2d(1024, 1024, 3, padding=1, bias=False), # -> 1024,14,14 
                 nn.BatchNorm2d(1024),
                 nn.LeakyReLU(0.1, inplace=True),
-            nn.Conv2d(1024, 1024, 3, padding=1, bias=False), # -> 1024,7,7
+            nn.Conv2d(1024, 1024, 3, padding=1, bias=False), # -> 1024,14,14 
                 nn.BatchNorm2d(1024),
                 nn.LeakyReLU(0.1, inplace=True),
             )

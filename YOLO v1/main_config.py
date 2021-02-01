@@ -4,6 +4,7 @@ from model import YOLOv1
 from utils import load_checkpoint
 from train import TrainNetwork
 from validation import validate
+from utils import save_checkpoint
 
 
 # Dataset parameters
@@ -15,11 +16,10 @@ category_list = ["other vehicle", "pedestrian", "traffic light", "traffic sign",
 
 # Hyperparameters
 learning_rate = 1e-5
-weight_decay = 0
 batch_size = 10
-num_epochs = 2
+num_epochs = 40
 load_size = 1000
-split_size = 7
+split_size = 14
 num_boxes = 2
 lambda_coord = 5
 lambda_noobj = 0.5
@@ -29,8 +29,8 @@ threshold = 0.5
 # Other parameters
 cell_dim = int(448/split_size)
 num_classes = len(category_list)
-load_model = False
-load_model_file = "YOLO_bdd100k.pth"
+load_model = True
+load_model_file = "YOLO_bdd100k.pt"
 
 
 def main():    
@@ -42,14 +42,13 @@ def main():
     
     # Define the learning method for updating the model weights
     optimizer = optim.SGD(model.parameters(), lr=learning_rate, momentum=0.9)
-    #optimizer = optim.Adam(model.parameters(), lr=learning_rate, weight_decay=weight_decay)
     
     # Load model and optimizer parameters
     if load_model:
         print("###################### LOADING YOLO MODEL ######################")
         print("")
         load_checkpoint(torch.load(load_model_file), model, optimizer)
-    
+
     # Start the training process
     print("###################### STARTING TRAINING ######################")
     print("")
@@ -70,11 +69,25 @@ def main():
         lambda_coord, 
         lambda_noobj, 
     )
-    
+
     # Start the validation process to calculate the final model performance on the test set
     print("###################### STARTING VALIDATION ######################")
     print("")
-    validate(val_img_files_path, val_target_files_path, category_list, split_size, batch_size, load_size, model, cell_dim, num_boxes, num_classes, device, iou_threshold, threshold)
+    validate(
+        val_img_files_path, 
+        val_target_files_path, 
+        category_list, 
+        split_size, 
+        batch_size, 
+        load_size, 
+        model, 
+        cell_dim, 
+        num_boxes, 
+        num_classes, 
+        device, 
+        iou_threshold, 
+        threshold
+    )
 
 if __name__ == "__main__":
     main()
