@@ -33,9 +33,40 @@ This project is still in development.
 - [x] Implement the training loop
 - [x] Evaluate the performance
 
+### Dataset ###
+
+You can download the dataset [here](https://bdd-data.berkeley.edu/)
+
+### YOLO ###
+
+#### Training YOLO #####
+
+#### Detecting Bounding Boxes with YOLO ####
+
+We provide 2 scripts to detect bounding boxes on images and videos:
+* ```YOLO_to_video.py```
+* ```YOLO_to_image.py```
+
+To execute the script you need to specify the following parameters:
+* ```--weights``` path to the modell weights 
+* ```--threshold``` threshold for the confidence score of the bounding box prediction
+* ```--input``` path to your input image/video 
+* ```--output``` path to your output image/video (in case of video include .mp4 at the end)
+
+An example execution for images would be:
+
+    python3 YOLO_to_image.py -w /home/alen_smajic/Real-time-Object-Detection-for-Autonomous-Driving-using-Deep-Learning/YOLO/YOLO_bdd100k.pt -t 0.5 -i /home/alen_smajic/Real-time-Object-Detection-for-Autonomous-Driving-using-Deep-Learning/YOLO/Inference_YOLO/test.jpg -o /home/alen_smajic/Real-time-Object-Detection-for-Autonomous-Driving-using-Deep-Learning/YOLO/Inference_YOLO/output.png
+
+An example execution for video would be:
+
+    python3 YOLO_to_video.py -w /home/alen_smajic/Real-time-Object-Detection-for-Autonomous-Driving-using-Deep-Learning/YOLO/YOLO_bdd100k.pt -t 0.5 -i /home/alen_smajic/Real-time-Object-Detection-for-Autonomous-Driving-using-Deep-Learning/YOLO/Inference_YOLO/test.mov -o /home/alen_smajic/Real-time-Object-Detection-for-Autonomous-Driving-using-Deep-Learning/YOLO/Inference_YOLO/output.mp4
+
 ## Publications ##
   
 ## Tools ## 
+* Python 3
+* PyTorch Framework
+* OpenCV
 
 ## Results ##
 <img align="center" width="1000" height="" src="Preliminary%20results/current_results.gif">
