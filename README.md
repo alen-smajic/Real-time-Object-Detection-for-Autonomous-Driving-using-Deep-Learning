@@ -41,7 +41,7 @@ You can download the dataset [here](https://bdd-data.berkeley.edu/)
 
 #### Training YOLO #####
 
-#### Detecting Bounding Boxes ####
+#### Detecting Bounding Boxes with YOLO ####
 
 We provide 2 scripts to detect bounding boxes on images and videos:
 * ```YOLO_to_video.py```
