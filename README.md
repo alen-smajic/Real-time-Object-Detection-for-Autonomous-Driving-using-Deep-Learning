@@ -39,7 +39,7 @@ You can download the dataset [here](https://bdd-data.berkeley.edu/)
 
 ### YOLO ###
 
-### Training YOLO ####
+#### Training YOLO #####
 
 #### Detecting Bounding Boxes ####
 
