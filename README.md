@@ -69,10 +69,7 @@ An example execution for video would be:
 * OpenCV
 
 ## Results ##
-<img align="center" width="1000" height="" src="Preliminary%20results/current_results.gif">
-<img align="center" width="1000" height="" src="Preliminary%20results/Screenshot%202021-01-12%20131231.png">
-
-<img align="left" width="390" height="" src="Preliminary%20results/Screenshot%202021-01-12%20131156.png">
-<img align="right" width="390" height="" src="Preliminary%20results/Screenshot%202021-01-12%20131214.png">
-<img align="left" width="390" height="" src="Preliminary%20results/Screenshot%202021-01-12%20131303.png">
-<img align="right" width="390" height="" src="Preliminary%20results/Screenshot%202021-01-12%20131317.png">
+<img align="center" width="1000" height="" src="Result%20images/YOLO7output1.gif">
+<img align="center" width="1000" height="" src="Result%20images/YOLO7output2.gif">
+<img align="center" width="1000" height="" src="Result%20images/YOLO7output3.gif">
+<img align="center" width="1000" height="" src="Result%20images/YOLO7output4.gif">
