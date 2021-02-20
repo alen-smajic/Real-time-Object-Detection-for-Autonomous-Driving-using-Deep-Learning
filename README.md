@@ -36,6 +36,9 @@ This project is still in development.
 ## Publications ##
   
 ## Tools ## 
+* Python 3
+* PyTorch Framework
+* OpenCV
 
 ## Results ##
 <img align="center" width="1000" height="" src="Preliminary%20results/current_results.gif">
