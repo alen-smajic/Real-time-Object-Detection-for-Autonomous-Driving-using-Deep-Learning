@@ -49,9 +49,9 @@ We provide 2 scripts to detect bounding boxes on images and videos:
 
 To execute the script you need to specify the following parameters:
 * ```--weights``` ```-w``` path to the modell weights 
-* ```--threshold``` threshold for the confidence score of the bounding box prediction
-* ```--input``` path to your input image/video 
-* ```--output``` path to your output image/video (in case of video include .mp4 at the end)
+* ```--threshold``` ```-t``` threshold for the confidence score of the bounding box prediction
+* ```--input``` ```-i``` path to your input image/video 
+* ```--output``` ```-o``` path to your output image/video (in case of video include .mp4 at the end)
 
 An example execution for images would be:
 
