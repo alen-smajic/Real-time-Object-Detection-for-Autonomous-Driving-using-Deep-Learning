@@ -48,7 +48,7 @@ We provide 2 scripts to detect bounding boxes on images and videos:
 * ```YOLO_to_image.py```
 
 To execute the script you need to specify the following parameters:
-* ```--weights``` path to the modell weights 
+* ```--weights``` ```-w``` path to the modell weights 
 * ```--threshold``` threshold for the confidence score of the bounding box prediction
 * ```--input``` path to your input image/video 
 * ```--output``` path to your output image/video (in case of video include .mp4 at the end)
@@ -57,7 +57,7 @@ An example execution for images would be:
 
     python3 YOLO_to_image.py -w /home/alen_smajic/Real-time-Object-Detection-for-Autonomous-Driving-using-Deep-Learning/YOLO/YOLO_bdd100k.pt -t 0.5 -i /home/alen_smajic/Real-time-Object-Detection-for-Autonomous-Driving-using-Deep-Learning/YOLO/Inference_YOLO/test.jpg -o /home/alen_smajic/Real-time-Object-Detection-for-Autonomous-Driving-using-Deep-Learning/YOLO/Inference_YOLO/output.png
 
-An example execution for video would be:
+An example execution for videos would be:
 
     python3 YOLO_to_video.py -w /home/alen_smajic/Real-time-Object-Detection-for-Autonomous-Driving-using-Deep-Learning/YOLO/YOLO_bdd100k.pt -t 0.5 -i /home/alen_smajic/Real-time-Object-Detection-for-Autonomous-Driving-using-Deep-Learning/YOLO/Inference_YOLO/test.mov -o /home/alen_smajic/Real-time-Object-Detection-for-Autonomous-Driving-using-Deep-Learning/YOLO/Inference_YOLO/output.mp4
 
