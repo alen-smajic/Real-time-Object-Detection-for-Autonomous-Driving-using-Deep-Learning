@@ -14,7 +14,8 @@ class DataLoader():
     list with new tensors from the image folder, excluding all the previous ones. 
     """
 
-    def __init__(self, img_files_path, target_files_path, category_list, split_size, batch_size, load_size):
+    def __init__(self, img_files_path, target_files_path, category_list, split_size, 
+                 batch_size, load_size):
         """
         Initialize all parameters for loading and transforming the data into tensors.
         
@@ -42,7 +43,8 @@ class DataLoader():
         self.img_tensors = [] # Used to temporary store image tensors from a single batch
         self.target_tensors = [] # Used to temporary store target tensors from a single batch
         
-        # Define transform which is applied to every single image to resize and convert it into a tensor
+        # Define transform which is applied to every single image to resize 
+        # and convert it into a tensor
         self.transform = transforms.Compose([
             transforms.Resize((448,448), Image.NEAREST),
             transforms.ToTensor(),
@@ -65,10 +67,10 @@ class DataLoader():
         
     def LoadData(self):
         """
-        Transforms the image files and labels into tensors and loads them into batches. Once a batch is
-        full, it is stored in the data list. Fills the data list with batches until the desired
-        load_size is reached. Every image that is loaded, is being excluded from future calls of this 
-        function.
+        Transforms the image files and labels into tensors and loads them into batches. 
+        Once a batch is full, it is stored in the data list. Fills the data list with 
+        batches until the desired load_size is reached. Every image that is loaded, 
+        is being excluded from future calls of this function.
         """
         
         # Reset the cache
@@ -79,7 +81,8 @@ class DataLoader():
         for i in range(len(self.img_files)):
             # Check if batch is full and perhaps start a new one
             if len(self.img_tensors) == self.batch_size:
-                self.data.append((torch.stack(self.img_tensors), torch.stack(self.target_tensors)))
+                self.data.append((torch.stack(self.img_tensors), 
+                                  torch.stack(self.target_tensors)))
                 self.img_tensors = []
                 self.target_tensors = []
                 print('Loaded batch ', len(self.data), 'of ', self.load_size)
@@ -89,16 +92,18 @@ class DataLoader():
             if len(self.data) == self.load_size: 
                 break # The data list is full with the desired amount of batches
                 
-            # Extracts a single random image and the corresponding label, and transforms them into
-            # tensors. Both are appended to the img_tensors and target_tensors lists
+            # Extracts a single random image and the corresponding label, and 
+            # transforms them into tensors. Both are appended to the img_tensors 
+            # and target_tensors lists
             self.extract_image_and_label() 
 
 
     def extract_image_and_label(self):
         """
-        Chooses a random image which is then being transformed into a tensor and stored.
-        Finds the corresponding label inside the json file which is then being transformed into a tensor
-        and stored. Stores both tensors inside the img_tensors and target_tensors lists.
+        Chooses a random image which is then being transformed into a tensor and 
+        stored. Finds the corresponding label inside the json file which is then 
+        being transformed into a tensor and stored. Stores both tensors inside 
+        the img_tensors and target_tensors lists.
         """
         
         img_tensor, chosen_image = self.extract_image()
@@ -132,8 +137,9 @@ class DataLoader():
 
     def extract_json_label(self, chosen_image):
         """
-        Uses the name of the image to find the corresponding json element. Then it extracts the data and
-        transforms it into a tensor which is stored inside the target_tensors list.
+        Uses the name of the image to find the corresponding json element. Then it 
+        extracts the data and transforms it into a tensor which is stored inside 
+        the target_tensors list.
 
         Parameters:
             chosen_image (string): The name of the image for which the label is needed.
@@ -156,17 +162,19 @@ class DataLoader():
 
     def transform_label_to_tensor(self, img_label):
         """
-        Extracts the useful information from the json element and transforms them into a tensor.
+        Extracts the useful information from the json element and transforms them 
+        into a tensor.
         
         Parameters:
             img_label (): A specific json element.
             
         Returns:
-            target_tensor (tensor): A tensor of size (split_size,split_size,5+num_classes) which is used as the target of 
-            the image.
+            target_tensor (tensor): A tensor of size (split_size,split_size,5+num_classes) 
+            which is used as the target of the image.
         """
         
-        target_tensor = torch.zeros(self.split_size, self.split_size, 5+self.num_classes) # Here are the information stored
+        # Here is the information stored
+        target_tensor = torch.zeros(self.split_size, self.split_size, 5+self.num_classes)
 
         for labels in range(len(img_label["labels"])):
             # Store the category index if its contained within the category_list.
@@ -181,7 +189,8 @@ class DataLoader():
             x2 = img_label["labels"][labels]["box2d"]["x2"] * (448/img.size[0])
             y2 = img_label["labels"][labels]["box2d"]["y2"] * (448/img.size[1])
 
-            # Transforms the corner bounding box information into a mid bounding box information
+            # Transforms the corner bounding box information into a mid bounding 
+            # box information
             x_mid = abs(x2 - x1) / 2 + x1
             y_mid = abs(y2 - y1) / 2 + y1
             width = abs(x2 - x1) 

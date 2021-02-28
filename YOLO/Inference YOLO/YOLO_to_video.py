@@ -22,6 +22,12 @@ ap = argparse.ArgumentParser()
 ap.add_argument("-w", "--weights", required=True, help="path to the modell weights")
 ap.add_argument("-t", "--threshold", default=0.5, 
                 help="threshold for the confidence score of the bouding box prediction")
+ap.add_argument("-ss", "--split_size", default=14, 
+                help="split size of the grid which is applied to the image")
+ap.add_argument("-nb", "--num_boxes", default=2, 
+                help="number of bounding boxes which are being predicted")
+ap.add_argument("-nc", "--num_classes", default=13, 
+                help="number of classes which are being predicted")
 ap.add_argument("-i", "--input", required=True, help="path to your input video")
 ap.add_argument("-o", "--output", required=True, help="path to your output video")
 args = ap.parse_args()
@@ -33,9 +39,9 @@ def main():
     print("")    
     print("Loading the model")
     print("...")
-    os.environ["CUDA_VISIBLE_DEVICES"]="1"  
+    os.environ["CUDA_VISIBLE_DEVICES"]="0"  
     device = torch.device('cuda')
-    model = YOLOv1(14, 2, 13).to(device)
+    model = YOLOv1(args.split_size, args.num_boxes, args.num_classes).to(device)
     num_param = sum(p.numel() for p in model.parameters() if p.requires_grad)
     print("Amount of YOLO parameters: " + str(num_param))
     print("...")
@@ -91,17 +97,20 @@ def main():
             curr_fps = int(1.0 / (time.time() - start_time)) # Prediction FPS
             sum_fps += curr_fps
             print("FPS for YOLO prediction: " + str(curr_fps))
+            print("")
 
         # Extracts the class index with the highest confidence scores
         corr_class = torch.argmax(output[0,:,:,10:23], dim=2)
 
         for cell_h in range(output.shape[1]):
             for cell_w in range(output.shape[2]):                
-                # Determines the best bounding box prediction out of 2
-                if output[0, cell_h, cell_w, 0] > output[0, cell_h, cell_w, 5]:
-                    best_box = 0
-                else:
-                    best_box = 1
+                # Determines the best bounding box prediction 
+                best_box = 0
+                max_conf = 0
+                for box in range(args.num_boxes):
+                    if output[0, cell_h, cell_w, box*5] > max_conf:
+                        best_box = box
+                        max_conf = output[0, cell_h, cell_w, box*5]
                 
                 # Checks if the confidence score is above the specified threshold
                 if output[0, cell_h, cell_w, best_box*5] >= float(args.threshold):
@@ -137,7 +146,8 @@ def main():
                                 cv2.FONT_HERSHEY_DUPLEX , 0.5, (0,0,0), 1, cv2.LINE_AA)
         
         out.write(img) # Stores the frame with the predictions on a new mp4 file
-    print("Average FPS was: " + str(int(sum_fps / amount_frames)))    
+    print("Average FPS was: " + str(int(sum_fps / amount_frames))) 
+    print("")
 
 if __name__ == '__main__':
     main()

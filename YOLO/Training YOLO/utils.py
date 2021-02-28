@@ -20,7 +20,8 @@ def IoU(target, prediction):
     i_y2 = min(target[3], prediction[3])
 
     intersection = max(0,(i_x2-i_x1)) * max(0,(i_y2-i_y1))    
-    union = ((target[2]-target[0]) * (target[3]-target[1])) + ((prediction[2]-prediction[0]) * (prediction[3]-prediction[1])) - intersection
+    union = ((target[2]-target[0]) * (target[3]-target[1])) + ((prediction[2]-prediction[0]) * 
+                                                               (prediction[3]-prediction[1])) - intersection
 
     iou_value = intersection / union    
     return iou_value
@@ -28,18 +29,19 @@ def IoU(target, prediction):
 
 def MidtoCorner(mid_box, cell_h, cell_w, cell_dim):
     """
-    Transforms bounding box coordinates which are in the mid YOLO format into the common corner format
-    with the correct pixel locations.
+    Transforms bounding box coordinates which are in the mid YOLO format into the 
+    common corner format with the correct pixel locations.
     
     Parameters:
-        mid_box (list): Bounding box coordinates which are in the mid YOLO format [x_mid, y_mid, width, height].
+        mid_box (list): Bounding box coordinates which are in the mid YOLO format 
+        [x_mid, y_mid, width, height].
         cell_h (int): Height index of the cell with the bounding box.
         cell_w (int): Width index of the cell with the bounding box.
         cell_dim (int): Dimension of a single cell.
         
     Returns:
-        corner_box (list): A list containing the coordinates of the bounding box in the common
-        corner format [x1, y2, x2, y2].
+        corner_box (list): A list containing the coordinates of the bounding 
+        box in the common corner format [x1, y2, x2, y2].
     """
     
     # Transform the coordinates from the YOLO format into normal pixel values

@@ -4,31 +4,40 @@ from utils import MidtoCorner, IoU
 from collections import Counter
 
 
-def validate(val_img_files_path, val_target_files_path, category_list, split_size, batch_size, load_size, model, cell_dim, num_boxes, num_classes, device, iou_threshold, threshold):
+def validate(val_img_files_path, val_target_files_path, category_list, split_size, 
+             batch_size, load_size, model, cell_dim, num_boxes, num_classes, device, 
+             iou_threshold, threshold):
     """
-    Uses the test dataset to validate the performance of the model. Calculates the Mean average precision for object detection.
+    Uses the test dataset to validate the performance of the model. Calculates 
+    the Mean average precision for object detection.
     
     Parameters:
-        val_img_files_path (str): System path to the image directory containing the test dataset images.
-        val_target_files_path (str): System path to the json file containing the ground-truth for the test dataset.
+        val_img_files_path (str): System path to the image directory containing 
+        the test dataset images.
+        val_target_files_path (str): System path to the json file containing the 
+        ground-truth for the test dataset.
         category_list (list): A list containing all classes which should be detected.
         split_size (int): Size of the grid which is applied to the image.
         batch_size (int): Batch size.
         load_size (int): Amount of batches which are loaded in one function call.
         model (): The YOLOv1-model.
         cell_dim (int): The dimension of a single cell.
-        num_boxes (int): Amount of bounding boxes which are being predicted by the model.
+        num_boxes (int): Amount of bounding boxes which are being predicted by 
+        the model.
         num_classes (int): Amount of classes which are being predicted.
         device (): Device which is used for training and testing the model.
-        iou_threshold (float): Threshold for the IoU between the predicted boxes and the ground-truth boxes.
-        threshold (float): Threshold for the confidence score of predicted bounding boxes.
+        iou_threshold (float): Threshold for the IoU between the predicted boxes 
+        and the ground-truth boxes.
+        threshold (float): Threshold for the confidence score of predicted 
+        bounding boxes.
     """
     
     model.eval()
        
     print("DATA IS BEING LOADED FOR VALIDATION")
     print("")
-    data = DataLoader(val_img_files_path, val_target_files_path, category_list, split_size, batch_size, load_size)
+    data = DataLoader(val_img_files_path, val_target_files_path, category_list, 
+                      split_size, batch_size, load_size)
     data.LoadFiles()
     
     # Here will all predicted and ground-truth bounding boxes be stored.
@@ -54,7 +63,8 @@ def validate(val_img_files_path, val_target_files_path, category_list, split_siz
             target_boxes = extract_boxes(target_data, num_classes, 1, cell_dim)
             
             for sample_idx in range(batch_size):
-                nms_boxes = non_max_suppression(pred_boxes[sample_idx], iou_threshold, threshold)                  
+                nms_boxes = non_max_suppression(pred_boxes[sample_idx], 
+                                                iou_threshold, threshold)                  
                 
                 for nms_box in nms_boxes:
                     all_pred_boxes.append([train_idx] + nms_box)
@@ -65,7 +75,8 @@ def validate(val_img_files_path, val_target_files_path, category_list, split_siz
             
                 train_idx += 1
                 
-    mean_avg_prec = mean_average_precision(all_pred_boxes, all_target_boxes, iou_threshold, box_format="corner")
+    mean_avg_prec = mean_average_precision(all_pred_boxes, all_target_boxes, 
+                                           iou_threshold, box_format="corner")
     print(f"Train mAP: {mean_avg_prec}")
             
 
@@ -74,14 +85,17 @@ def extract_boxes(yolo_tensor, num_classes, num_boxes, cell_dim):
     Extracts all bounding boxes from a given tensor and transforms them into a list.
     
     Parameters:
-        yolo_tensor (tensor): The tensor from which the bounding boxes need to be extracted.
+        yolo_tensor (tensor): The tensor from which the bounding boxes need to 
+        be extracted.
         num_classes (int): Amount of classes which are being predicted.
         num_boxes (int): Amount of bounding boxes which are being predicted.
         cell_dim (int): Dimension of a single cell.
         
     Returns:
-        all_bboxes (list): A list where each element is a list representing one image from the batch.
-        This inner list contains other lists which represent the bounding boxes within this image.
+        all_bboxes (list): A list where each element is a list representing one 
+        image from the batch.
+        This inner list contains other lists which represent the bounding boxes 
+        within this image.
         The box lists are specified as [class_pred, conf_score, x1, y1, x2, y2]
     """
     
@@ -107,7 +121,8 @@ def extract_boxes(yolo_tensor, num_classes, num_boxes, cell_dim):
                         best_box = box_idx
                         
                 conf = yolo_tensor[sample_idx, cell_h, cell_w, best_box*5]
-                cords = MidtoCorner(yolo_tensor[sample_idx, cell_h, cell_w, best_box*5+1:best_box*5+5], cell_h, cell_w, cell_dim)
+                cords = MidtoCorner(yolo_tensor[sample_idx, cell_h, cell_w, 
+                                                best_box*5+1:best_box*5+5], cell_h, cell_w, cell_dim)
                 x1 = cords[0]
                 y1 = cords[1]
                 x2 = cords[2]
@@ -128,7 +143,8 @@ def non_max_suppression(bboxes, iou_threshold, threshold):
         threshold (float): threshold to remove predicted bboxes (independent of IoU) 
         
     Returns:
-        bboxes_after_nms (list): bboxes after performing NMS given a specific IoU threshold
+        bboxes_after_nms (list): bboxes after performing NMS given a specific 
+        IoU threshold
     """
 
     assert type(bboxes) == list
