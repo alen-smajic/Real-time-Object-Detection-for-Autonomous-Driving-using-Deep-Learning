@@ -49,7 +49,10 @@ We provide 2 scripts to detect bounding boxes on images and videos:
 
 To execute the script you need to specify the following parameters:
 * ```--weights``` ```-w``` path to the modell weights 
-* ```--threshold``` ```-t``` threshold for the confidence score of the bounding box prediction
+* ```--threshold``` ```-t``` (default: 0.5) threshold for the confidence score of the bounding box prediction
+* ```--split_size``` ```-ss``` (default: 14) size of the grid which is applied to the image for predicting bounding boxes
+* ```--num_boxes``` ```-nb``` (default:2) amount of bounding boxes which are being predicted per grid cell
+* ```--num_classes``` ```-nc``` (default:13) amount of classes which are being predicted
 * ```--input``` ```-i``` path to your input image/video 
 * ```--output``` ```-o``` path to your output image/video (in case of video include .mp4 at the end)
 
