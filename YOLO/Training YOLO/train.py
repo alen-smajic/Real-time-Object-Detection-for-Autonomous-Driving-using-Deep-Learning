@@ -93,7 +93,7 @@ def TrainNetwork(num_epochs, split_size, batch_size, load_size, num_boxes, num_c
                       split_size, batch_size, load_size)
     
     loss_log = {} # Used for tracking the loss
-    torch.save(loss_log, "loss_log.pt") 
+    torch.save(loss_log, "loss_log.pt") # Initialize the log file
     
     for epoch in range(num_epochs):
         model.train()
