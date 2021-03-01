@@ -45,18 +45,22 @@ To train the model use the script:
 * ```train.py```
 
 To execute the script you need to specify the following parameters:
-* ```--train_img_files_path``` ```-tip``` (default: "bdd100k/images/100k/train/")
-* ```--train_target_files_path``` ```-ttp``` (default: "bdd100k_labels_release/bdd100k/labels/det_v2_train_release.json")
-* ```--category_list``` ```-cl``` (default: ["other vehicle", "pedestrian", "traffic light", "traffic sign", "truck", "train", "other person", "bus", "car", "rider", "motorcycle", "bicycle", "trailer"])
-* ```--learning_rate``` ```-lr``` (default: 1e-5)
-* ```--batch_size``` ```-bs``` (default: 10)
-* ```--number_epochs``` ```-ne``` (default: 100)
-* ```--load_size``` ```-ls``` (default: 1000)
-* ```--number_boxes``` ```-nb``` (default: 2)
-* ```--lambda_coord``` ```-lc``` (default: 5)
-* ```--lambda_noobj``` ```-ln``` (default: 0.5)
-* ```--load_model``` ```-lm``` (default: True)
-* ```--load_model_file``` ```-lmf``` (default: "YOLO_bdd100k.pt")
+* ```--train_img_files_path``` ```-tip``` (default: "bdd100k/images/100k/train/") path to the train image folder
+* ```--train_target_files_path``` ```-ttp``` (default: "bdd100k_labels_release/bdd100k/labels/det_v2_train_release.json") path to json file containing the train labels
+* ```--category_list``` ```-cl``` (default: ["other vehicle", "pedestrian", "traffic light", "traffic sign", "truck", "train", "other person", "bus", "car", "rider", "motorcycle", "bicycle", "trailer"]) list containing all string names of the classes
+* ```--learning_rate``` ```-lr``` (default: 1e-5) learning rate
+* ```--batch_size``` ```-bs``` (default: 10) batch size
+* ```--number_epochs``` ```-ne``` (default: 100) amount of epochs
+* ```--load_size``` ```-ls``` (default: 1000) amount of batches which are being loaded in one take
+* ```--number_boxes``` ```-nb``` (default: 2) amount of bounding boxes which should be predicted
+* ```--lambda_coord``` ```-lc``` (default: 5) hyperparameter penalizeing predicted bounding boxes in the loss function
+* ```--lambda_noobj``` ```-ln``` (default: 0.5) hyperparameter penalizeing prediction confidence scores in the loss function
+* ```--load_model``` ```-lm``` (default: True) True or False if the model weights should be loaded
+* ```--load_model_file``` ```-lmf``` (default: "YOLO_bdd100k.pt") name of the file containing the model weights
+
+An example execution for training would be:
+
+    python3 train.py -tip "bdd100k/images/100k/train/" -ttp "bdd100k_labels_release/bdd100k/labels/det_v2_train_release.json" -lr 1e-5 -bs 10 -ne 100 -lc 3 -ln 1 -lm False 
 
 #### Detecting Bounding Boxes with YOLO ####
 
