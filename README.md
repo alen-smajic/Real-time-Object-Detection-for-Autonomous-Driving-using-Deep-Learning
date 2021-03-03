@@ -55,12 +55,12 @@ To execute the script you need to specify the following parameters:
 * ```--number_boxes``` ```-nb``` (default: 2) amount of bounding boxes which should be predicted
 * ```--lambda_coord``` ```-lc``` (default: 5) hyperparameter penalizeing predicted bounding boxes in the loss function
 * ```--lambda_noobj``` ```-ln``` (default: 0.5) hyperparameter penalizeing prediction confidence scores in the loss function
-* ```--load_model``` ```-lm``` (default: True) True or False if the model weights should be loaded
+* ```--load_model``` ```-lm``` (default: 1) 1 or 0 if the model weights should be loaded
 * ```--load_model_file``` ```-lmf``` (default: "YOLO_bdd100k.pt") name of the file containing the model weights
 
 An example execution for training would be:
 
-    python3 train.py -tip bdd100k/images/100k/train/ -ttp bdd100k_labels_release/bdd100k/labels/det_v2_train_release.json -lr 1e-5 -bs 10 -ne 100 -lc 3 -ln 1 -lm False 
+    python3 train.py -tip bdd100k/images/100k/train/ -ttp bdd100k_labels_release/bdd100k/labels/det_v2_train_release.json -lr 1e-5 -bs 10 -ne 100 -lc 3 -ln 1 -lm 0 
 
 #### Detecting Bounding Boxes with YOLO ####
 
