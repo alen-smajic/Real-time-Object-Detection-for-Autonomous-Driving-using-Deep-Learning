@@ -60,7 +60,7 @@ To execute the script you need to specify the following parameters:
 
 An example execution for training would be:
 
-    python3 train.py -tip bdd100k/images/100k/train/ -ttp bdd100k_labels_release/bdd100k/labels/det_v2_train_release.json -lr 1e-5 -bs 10 -ne 100 -lc 3 -ln 1 -lm 0 
+    python3 train.py -tip bdd100k/images/100k/train/ -ttp bdd100k_labels_release/bdd100k/labels/det_v2_train_release.json -lr 1e-5 -bs 10 -ne 100 -ls 1000 -nb 2 -lc 5 -ln 0.5 -lm 1 -lmf YOLO_bdd100k.pt 
 
 #### Detecting Bounding Boxes with YOLO ####
 
@@ -79,11 +79,11 @@ To execute the script you need to specify the following parameters:
 
 An example execution for images would be:
 
-    python3 YOLO_to_image.py -w /home/alen_smajic/Real-time-Object-Detection-for-Autonomous-Driving-using-Deep-Learning/YOLO/YOLO_bdd100k.pt -t 0.5 -i /home/alen_smajic/Real-time-Object-Detection-for-Autonomous-Driving-using-Deep-Learning/YOLO/Inference_YOLO/test.jpg -o /home/alen_smajic/Real-time-Object-Detection-for-Autonomous-Driving-using-Deep-Learning/YOLO/Inference_YOLO/output.png
+    python3 YOLO_to_image.py -w /home/alen_smajic/Real-time-Object-Detection-for-Autonomous-Driving-using-Deep-Learning/YOLO/YOLO_bdd100k.pt -t 0.5 -ss 14 -nb 2 -nc 13 -i /home/alen_smajic/Real-time-Object-Detection-for-Autonomous-Driving-using-Deep-Learning/YOLO/Inference_YOLO/test.jpg -o /home/alen_smajic/Real-time-Object-Detection-for-Autonomous-Driving-using-Deep-Learning/YOLO/Inference_YOLO/output.png
 
 An example execution for videos would be:
 
-    python3 YOLO_to_video.py -w /home/alen_smajic/Real-time-Object-Detection-for-Autonomous-Driving-using-Deep-Learning/YOLO/YOLO_bdd100k.pt -t 0.5 -i /home/alen_smajic/Real-time-Object-Detection-for-Autonomous-Driving-using-Deep-Learning/YOLO/Inference_YOLO/test.mov -o /home/alen_smajic/Real-time-Object-Detection-for-Autonomous-Driving-using-Deep-Learning/YOLO/Inference_YOLO/output.mp4
+    python3 YOLO_to_video.py -w /home/alen_smajic/Real-time-Object-Detection-for-Autonomous-Driving-using-Deep-Learning/YOLO/YOLO_bdd100k.pt -t 0.5 -ss 14 -nb 2 -nc 13 -i /home/alen_smajic/Real-time-Object-Detection-for-Autonomous-Driving-using-Deep-Learning/YOLO/Inference_YOLO/test.mov -o /home/alen_smajic/Real-time-Object-Detection-for-Autonomous-Driving-using-Deep-Learning/YOLO/Inference_YOLO/output.mp4
 
 ## Publications ##
   
