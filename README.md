@@ -133,6 +133,10 @@ The runtime of this implementation is very bad, since no vectorizatio  was used 
 ## Results ##
 We measured the FPS and mAP for the Evaluation and Comparision of YOLO and faster R-CNN on a NVIDIA V100 SXM2 32GB:
 
+| Architecture| mAP % | FPS |
+| -------------|:-----:| -----
+| YOLO     | ???   | ???? |
+| Faster R-CNN| 41,8 | 17,1 |
 
 ### YOLO ###
 <img align="center" width="1000" height="" src="Result%20images/YOLO/output1.gif">
