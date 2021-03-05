@@ -103,8 +103,34 @@ An example execution for videos would be:
 ## Faster R-CNN ##
 
 To use Faster R-CNN you have to configure the Tensorflow 2 object detection API.
-You can follow this [tutorial](https://github.com/TannerGilbert/Tensorflow-Object-Detection-API-Train-Model) for example.
+You can follow this [tutorial](https://github.com/TannerGilbert/Tensorflow-Object-Detection-API-Train-Model) for training, validation, and export of an object detection model.
 
-#### Training YOLO #####
+#### Prediction #####
 
-To train
+To predict images/videos from a folder you can navigate for example to the path of ```detect_objects.py```.
+
+An example execution for predict on images would be:
+
+    python3 detect_objects.py --model_path models/inference_graph/saved_model --path_to_labelmap models/label_map.pbtxt --images_dir data/samples/images/ --save_output  
+    
+An example execution for predict on a video would be:
+
+    python3 detect_objects.py --model_path models/inference_graph/saved_model --path_to_labelmap models/label_map.pbtxt --video_input --video_path data/video_samples/1.mov --save_output
+
+To execute the script there are the following parameters:
+* ```--model_pat``` Path to frozen detection model, default=```models/efficientdet_d0_coco17_tpu-32/saved_model```
+* ```--path_to_labelmap``` Path to labelmap (.pbtxt) file
+* ```--class_ids``` id of classes to detect, expects string with ids delimited by ","
+* ```--threshold``` Detection Threshold, default=```0.4```
+* ```--images_dir``` Directory to input images, ```default='data/samples/images/```
+* ```--video_path``` Path to input video
+* ```--output_directory``` Path to output images and video, default=```data/samples/output```
+* ```--video_input``` Flag for video input default: ```False```
+* ```--save_output``` Flag for save images and video with detections visualized, default: ```False```
+
+
+
+	parser.add_argument('--save_output', help='Flag for save images and video with detections visualized, default: False',
+	                    action='store_true')  # default is false
+
+
