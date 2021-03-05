@@ -47,7 +47,6 @@ To train the model use the script:
 To execute the script you need to specify the following parameters:
 * ```--train_img_files_path``` ```-tip``` (default: bdd100k/images/100k/train/) path to the train image folder
 * ```--train_target_files_path``` ```-ttp``` (default: bdd100k_labels_release/bdd100k/labels/det_v2_train_release.json) path to json file containing the train labels
-* ```--category_list``` ```-cl``` (default: ["other vehicle", "pedestrian", "traffic light", "traffic sign", "truck", "train", "other person", "bus", "car", "rider", "motorcycle", "bicycle", "trailer"]) list containing all string names of the classes
 * ```--learning_rate``` ```-lr``` (default: 1e-5) learning rate
 * ```--batch_size``` ```-bs``` (default: 10) batch size
 * ```--number_epochs``` ```-ne``` (default: 100) amount of epochs
@@ -55,12 +54,14 @@ To execute the script you need to specify the following parameters:
 * ```--number_boxes``` ```-nb``` (default: 2) amount of bounding boxes which should be predicted
 * ```--lambda_coord``` ```-lc``` (default: 5) hyperparameter penalizeing predicted bounding boxes in the loss function
 * ```--lambda_noobj``` ```-ln``` (default: 0.5) hyperparameter penalizeing prediction confidence scores in the loss function
-* ```--load_model``` ```-lm``` (default: True) True or False if the model weights should be loaded
+* ```--load_model``` ```-lm``` (default: 1) 1 if the model weights should be loaded, else 0
 * ```--load_model_file``` ```-lmf``` (default: "YOLO_bdd100k.pt") name of the file containing the model weights
+
+Note if you want to change the name of the class labels, you need to specify this inside the code in train.py
 
 An example execution for training would be:
 
-    python3 train.py -tip bdd100k/images/100k/train/ -ttp bdd100k_labels_release/bdd100k/labels/det_v2_train_release.json -lr 1e-5 -bs 10 -ne 100 -lc 3 -ln 1 -lm False 
+    python3 train.py -tip bdd100k/images/100k/train/ -ttp bdd100k_labels_release/bdd100k/labels/det_v2_train_release.json -lr 1e-5 -bs 10 -ne 100 -ls 1000 -nb 2 -lc 5 -ln 0.5 -lm 1 -lmf YOLO_bdd100k.pt 
 
 #### Detecting Bounding Boxes with YOLO ####
 
@@ -79,11 +80,11 @@ To execute the script you need to specify the following parameters:
 
 An example execution for images would be:
 
-    python3 YOLO_to_image.py -w /home/alen_smajic/Real-time-Object-Detection-for-Autonomous-Driving-using-Deep-Learning/YOLO/YOLO_bdd100k.pt -t 0.5 -i /home/alen_smajic/Real-time-Object-Detection-for-Autonomous-Driving-using-Deep-Learning/YOLO/Inference_YOLO/test.jpg -o /home/alen_smajic/Real-time-Object-Detection-for-Autonomous-Driving-using-Deep-Learning/YOLO/Inference_YOLO/output.png
+    python3 YOLO_to_image.py -w /home/alen_smajic/Real-time-Object-Detection-for-Autonomous-Driving-using-Deep-Learning/YOLO/YOLO_bdd100k.pt -t 0.5 -ss 14 -nb 2 -nc 13 -i /home/alen_smajic/Real-time-Object-Detection-for-Autonomous-Driving-using-Deep-Learning/YOLO/Inference_YOLO/test.jpg -o /home/alen_smajic/Real-time-Object-Detection-for-Autonomous-Driving-using-Deep-Learning/YOLO/Inference_YOLO/output.png
 
 An example execution for videos would be:
 
-    python3 YOLO_to_video.py -w /home/alen_smajic/Real-time-Object-Detection-for-Autonomous-Driving-using-Deep-Learning/YOLO/YOLO_bdd100k.pt -t 0.5 -i /home/alen_smajic/Real-time-Object-Detection-for-Autonomous-Driving-using-Deep-Learning/YOLO/Inference_YOLO/test.mov -o /home/alen_smajic/Real-time-Object-Detection-for-Autonomous-Driving-using-Deep-Learning/YOLO/Inference_YOLO/output.mp4
+    python3 YOLO_to_video.py -w /home/alen_smajic/Real-time-Object-Detection-for-Autonomous-Driving-using-Deep-Learning/YOLO/YOLO_bdd100k.pt -t 0.5 -ss 14 -nb 2 -nc 13 -i /home/alen_smajic/Real-time-Object-Detection-for-Autonomous-Driving-using-Deep-Learning/YOLO/Inference_YOLO/test.mov -o /home/alen_smajic/Real-time-Object-Detection-for-Autonomous-Driving-using-Deep-Learning/YOLO/Inference_YOLO/output.mp4
 
 ## Publications ##
   
@@ -98,3 +99,12 @@ An example execution for videos would be:
 <img align="center" width="1000" height="" src="Result%20images/YOLO/output2.gif">
 <img align="center" width="1000" height="" src="Result%20images/YOLO/output3.gif">
 <img align="center" width="1000" height="" src="Result%20images/YOLO/output4.gif">
+
+## Faster R-CNN ##
+
+To use Faster R-CNN you have to configure the Tensorflow 2 object detection API.
+You can follow this [tutorial](https://github.com/TannerGilbert/Tensorflow-Object-Detection-API-Train-Model) for example.
+
+#### Training YOLO #####
+
+To train
