@@ -99,3 +99,12 @@ An example execution for videos would be:
 <img align="center" width="1000" height="" src="Result%20images/YOLO/output2.gif">
 <img align="center" width="1000" height="" src="Result%20images/YOLO/output3.gif">
 <img align="center" width="1000" height="" src="Result%20images/YOLO/output4.gif">
+
+## Faster R-CNN ##
+
+To use Faster R-CNN you have to configure the Tensorflow 2 object detection API.
+You can follow this [tutorial](https://github.com/TannerGilbert/Tensorflow-Object-Detection-API-Train-Model) for example.
+
+#### Training YOLO #####
+
+To train
