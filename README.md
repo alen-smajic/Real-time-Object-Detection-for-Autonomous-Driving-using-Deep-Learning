@@ -56,6 +56,7 @@ To execute the script you need to specify the following parameters:
 * ```--lambda_noobj``` ```-ln``` (default: 0.5) hyperparameter penalizeing prediction confidence scores in the loss function
 * ```--load_model``` ```-lm``` (default: 1) 1 if the model weights should be loaded, else 0
 * ```--load_model_file``` ```-lmf``` (default: "YOLO_bdd100k.pt") name of the file containing the model weights
+
 Note if you want to change the name of the class labels, you need to specify this inside the code in train.py
 
 An example execution for training would be:
