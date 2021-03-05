@@ -114,6 +114,14 @@ To execute the script there are the following parameters:
 * ```--video_input``` Flag for video input default: ```False```
 * ```--save_output``` Flag for save images and video with detections visualized, default: ```False```
 
+#### Jupyter Notebook ####
+
+There is also a selfmade implementation of faster R-CNN:
+
+    Faster_RCNN_Final.ipynb
+
+The runtime of this implementation is very bad, since no vectorizatio  was used in many places.
+
 ## Publications ##
   
 ## Tools ## 
