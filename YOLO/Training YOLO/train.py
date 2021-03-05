@@ -16,11 +16,6 @@ ap.add_argument("-tip", "--train_img_files_path", default="bdd100k/images/100k/t
 ap.add_argument("-ttp", "--train_target_files_path", 
                 default="bdd100k_labels_release/bdd100k/labels/det_v2_train_release.json", 
                 help="path to json file containing the train labels")
-ap.add_argument("-cl", "--category_list", 
-                default=["other vehicle", "pedestrian", "traffic light", "traffic sign", 
-                "truck", "train", "other person", "bus", "car", "rider", "motorcycle", 
-                "bicycle", "trailer"], 
-                help="list containing all string names of the classes")
 ap.add_argument("-lr", "--learning_rate", default=1e-5, help="learning rate")
 ap.add_argument("-bs", "--batch_size", default=10, help="batch size")
 ap.add_argument("-ne", "--number_epochs", default=100, help="amount of epochs")
@@ -32,8 +27,8 @@ ap.add_argument("-lc", "--lambda_coord", default=5,
                 help="hyperparameter penalizeing predicted bounding boxes in the loss function")
 ap.add_argument("-ln", "--lambda_noobj", default=0.5, 
                 help="hyperparameter penalizeing prediction confidence scores in the loss function")
-ap.add_argument("-lm", "--load_model", default=True, 
-                help="True or False if the model weights should be loaded")
+ap.add_argument("-lm", "--load_model", default=1, 
+                help="1 if the model weights should be loaded else 0")
 ap.add_argument("-lmf", "--load_model_file", default="YOLO_bdd100k.pt", 
                 help="name of the file containing the model weights")
 args = ap.parse_args()
@@ -41,22 +36,24 @@ args = ap.parse_args()
 # Dataset parameters
 train_img_files_path = args.train_img_files_path
 train_target_files_path = args.train_target_files_path
-category_list = args.category_list
+category_list = ["other vehicle", "pedestrian", "traffic light", "traffic sign", 
+                "truck", "train", "other person", "bus", "car", "rider", "motorcycle", 
+                "bicycle", "trailer"]
 
 # Hyperparameters
-learning_rate = args.learning_rate
-batch_size = args.batch_size
-num_epochs = args.number_epochs
-load_size = args.load_size
+learning_rate = float(args.learning_rate)
+batch_size = int(args.batch_size)
+num_epochs = int(args.number_epochs)
+load_size = int(args.load_size)
 split_size = 14
-num_boxes = args.number_boxes
-lambda_coord = args.lambda_coord
-lambda_noobj = args.lambda_noobj
+num_boxes = int(args.number_boxes)
+lambda_coord = float(args.lambda_coord)
+lambda_noobj = float(args.lambda_noobj)
 
 # Other parameters
 cell_dim = int(448/split_size)
 num_classes = len(category_list)
-load_model = args.load_model
+load_model = int(args.load_model)
 load_model_file = args.load_model_file
 
 
@@ -88,6 +85,8 @@ def TrainNetwork(num_epochs, split_size, batch_size, load_size, num_boxes, num_c
         object in that cell.
     """
     
+    model.train()
+    
     # Initialize the DataLoader for the train dataset
     data = DataLoader(train_img_files_path, train_target_files_path, category_list, 
                       split_size, batch_size, load_size)
@@ -96,8 +95,6 @@ def TrainNetwork(num_epochs, split_size, batch_size, load_size, num_boxes, num_c
     torch.save(loss_log, "loss_log.pt") # Initialize the log file
     
     for epoch in range(num_epochs):
-        model.train()
-        
         epoch_losses = [] # Stores the loss progress 
     
         print("DATA IS BEING LOADED FOR A NEW EPOCH")

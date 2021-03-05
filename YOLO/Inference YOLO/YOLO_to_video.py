@@ -41,7 +41,7 @@ def main():
     print("...")
     os.environ["CUDA_VISIBLE_DEVICES"]="0"  
     device = torch.device('cuda')
-    model = YOLOv1(args.split_size, args.num_boxes, args.num_classes).to(device)
+    model = YOLOv1(int(args.split_size), int(args.num_boxes), int(args.num_classes)).to(device)
     num_param = sum(p.numel() for p in model.parameters() if p.requires_grad)
     print("Amount of YOLO parameters: " + str(num_param))
     print("...")
@@ -107,7 +107,7 @@ def main():
                 # Determines the best bounding box prediction 
                 best_box = 0
                 max_conf = 0
-                for box in range(args.num_boxes):
+                for box in range(int(args.num_boxes)):
                     if output[0, cell_h, cell_w, box*5] > max_conf:
                         best_box = box
                         max_conf = output[0, cell_h, cell_w, box*5]
@@ -144,6 +144,10 @@ def main():
                     cv2.putText(img, category_list[best_class] + " " + 
                                 str(int(confidence_score.item()*100)) + "%", (x1,y1-5), 
                                 cv2.FONT_HERSHEY_DUPLEX , 0.5, (0,0,0), 1, cv2.LINE_AA)
+                    # Generates a small window in the top left corner which 
+                    # displays the current FPS for the prediction
+                    cv2.putText(img, str(curr_fps) + "FPS", (25, 30), 
+                                cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 0, 0), 2)
         
         out.write(img) # Stores the frame with the predictions on a new mp4 file
     print("Average FPS was: " + str(int(sum_fps / amount_frames))) 
