@@ -131,11 +131,16 @@ The runtime of this implementation is very bad, since no vectorizatio  was used 
 * TensorFlow2
 
 ## Results ##
+We measured the FPS and mAP for the Evaluation and Comparision of YOLO and faster R-CNN:
+
+
 ### YOLO ###
 <img align="center" width="1000" height="" src="Result%20images/YOLO/output1.gif">
 <img align="center" width="1000" height="" src="Result%20images/YOLO/output2.gif">
 <img align="center" width="1000" height="" src="Result%20images/YOLO/output3.gif">
 <img align="center" width="1000" height="" src="Result%20images/YOLO/output4.gif">
+
+### Faster R-CNN ###
 
 
 
