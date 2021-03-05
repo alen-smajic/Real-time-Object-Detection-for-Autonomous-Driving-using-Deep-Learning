@@ -85,22 +85,8 @@ An example execution for images would be:
 An example execution for videos would be:
 
     python3 YOLO_to_video.py -w /home/alen_smajic/Real-time-Object-Detection-for-Autonomous-Driving-using-Deep-Learning/YOLO/YOLO_bdd100k.pt -t 0.5 -ss 14 -nb 2 -nc 13 -i /home/alen_smajic/Real-time-Object-Detection-for-Autonomous-Driving-using-Deep-Learning/YOLO/Inference_YOLO/test.mov -o /home/alen_smajic/Real-time-Object-Detection-for-Autonomous-Driving-using-Deep-Learning/YOLO/Inference_YOLO/output.mp4
-
-## Publications ##
-  
-## Tools ## 
-* Python 3
-* PyTorch Framework
-* OpenCV
-
-## Results ##
-### YOLO ###
-<img align="center" width="1000" height="" src="Result%20images/YOLO/output1.gif">
-<img align="center" width="1000" height="" src="Result%20images/YOLO/output2.gif">
-<img align="center" width="1000" height="" src="Result%20images/YOLO/output3.gif">
-<img align="center" width="1000" height="" src="Result%20images/YOLO/output4.gif">
-
-## Faster R-CNN ##
+    
+### Faster R-CNN ###
 
 To use Faster R-CNN you have to configure the Tensorflow 2 object detection API.
 You can follow this [tutorial](https://github.com/TannerGilbert/Tensorflow-Object-Detection-API-Train-Model) for training, validation, and export of an object detection model.
@@ -128,9 +114,21 @@ To execute the script there are the following parameters:
 * ```--video_input``` Flag for video input default: ```False```
 * ```--save_output``` Flag for save images and video with detections visualized, default: ```False```
 
+## Publications ##
+  
+## Tools ## 
+* Python 3
+* PyTorch Framework
+* OpenCV
+* TensorFlow2
+
+## Results ##
+### YOLO ###
+<img align="center" width="1000" height="" src="Result%20images/YOLO/output1.gif">
+<img align="center" width="1000" height="" src="Result%20images/YOLO/output2.gif">
+<img align="center" width="1000" height="" src="Result%20images/YOLO/output3.gif">
+<img align="center" width="1000" height="" src="Result%20images/YOLO/output4.gif">
 
 
-	parser.add_argument('--save_output', help='Flag for save images and video with detections visualized, default: False',
-	                    action='store_true')  # default is false
 
 
