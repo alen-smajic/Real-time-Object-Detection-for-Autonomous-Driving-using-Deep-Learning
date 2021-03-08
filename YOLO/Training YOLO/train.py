@@ -164,7 +164,7 @@ def main():
     
     # Load model and optimizer parameters
     if load_model:
-        print("###################### LOADING YOLO MODEL ######################")
+        print("##################### LOADING YOLO MODEL ######################")
         print("")
         load_checkpoint(torch.load(load_model_file), model, optimizer)
 

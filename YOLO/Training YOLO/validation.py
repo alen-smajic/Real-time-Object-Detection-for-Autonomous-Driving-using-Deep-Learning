@@ -9,19 +9,12 @@ from model import YOLOv1
 
 # Argparse to start the YOLO training
 ap = argparse.ArgumentParser()
-ap.add_argument("-tip", "--test_img_files_path", default="bdd100k/images/100k/test/", 
+ap.add_argument("-tip", "--test_img_files_path", default="bdd100k/images/100k/val/", 
                 help="path to the test image folder")
 ap.add_argument("-ttp", "--test_target_files_path", 
                 default="bdd100k_labels_release/bdd100k/labels/det_v2_val_release.json", 
                 help="path to json file containing the test labels")
-ap.add_argument("-cl", "--category_list", 
-                default=["other vehicle", "pedestrian", "traffic light", "traffic sign", 
-                "truck", "train", "other person", "bus", "car", "rider", "motorcycle", 
-                "bicycle", "trailer"], 
-                help="list containing all string names of the classes")
-ap.add_argument("-lr", "--learning_rate", default=1e-5, help="learning rate")
 ap.add_argument("-bs", "--batch_size", default=10, help="batch size")
-ap.add_argument("-ne", "--number_epochs", default=100, help="amount of epochs")
 ap.add_argument("-ls", "--load_size", default=1000, 
                 help="amount of batches which are being loaded in one take")
 ap.add_argument("-nb", "--number_boxes", default=2, 
@@ -32,33 +25,44 @@ ap.add_argument("-ln", "--lambda_noobj", default=0.5,
                 help="hyperparameter penalizeing prediction confidence scores in the loss function")
 ap.add_argument("-lmf", "--load_model_file", default="YOLO_bdd100k.pt", 
                 help="name of the file containing the model weights")
+ap.add_argument("-ioutn", "--iou_threshold_nms", default=0.9, 
+                help="threshold for the IoU between the predicted boxes and the ground-truth boxes for NMS")
+ap.add_argument("-ioutm", "--iou_threshold_map", default=0.7, 
+                help="threshold for the IoU between the predicted boxes and the ground-truth boxes for mAP")
+ap.add_argument("-t", "--threshold", default=0.5, 
+                help="threshold for the confidence score of predicted bounding boxes")
+ap.add_argument("-unms", "--use_nms", default=1, 
+                help="1 if non max suppression should be used, else 0")
 args = ap.parse_args()
 
 # Dataset parameters
-test_img_files_path = args.test_img_files_path ###
-test_target_files_path = args.test_target_files_path ###
-category_list = args.category_list ###
+test_img_files_path = args.test_img_files_path 
+test_target_files_path = args.test_target_files_path 
+category_list = ["other vehicle", "pedestrian", "traffic light", "traffic sign", 
+                "truck", "train", "other person", "bus", "car", "rider", "motorcycle", 
+                "bicycle", "trailer"] 
 
 # Hyperparameters
-batch_size = args.batch_size ###
-load_size = args.load_size ###
-split_size = 14 ###
-num_boxes = args.number_boxes ###
-lambda_coord = args.lambda_coord
-lambda_noobj = args.lambda_noobj
-iou_threshold = args.iou_threshold ###
-threshold = args.threshold ###
-use_nms = args.use_nms ###
+batch_size = int(args.batch_size) 
+load_size = int(args.load_size)
+split_size = 14 
+num_boxes = int(args.number_boxes)
+lambda_coord = float(args.lambda_coord)
+lambda_noobj = float(args.lambda_noobj)
+iou_threshold_nms = float(args.iou_threshold_nms)
+iou_threshold_map = float(args.iou_threshold_map)
+threshold = float(args.threshold)
+use_nms = int(args.use_nms)
 
 # Other parameters
-cell_dim = int(448/split_size) ###
-num_classes = len(category_list) ###
-load_model_file = args.load_model_file ###
+cell_dim = int(448/split_size) 
+num_classes = len(category_list) 
+load_model_file = args.load_model_file 
 
 
 def validate(test_img_files_path, test_target_files_path, category_list, split_size, 
              batch_size, load_size, model, cell_dim, num_boxes, num_classes, device, 
-             iou_threshold, threshold, use_nms):
+             iou_threshold_nms, iou_threshold_map, threshold, use_nms):
     """
     Uses the test dataset to validate the performance of the model. Calculates 
     the mean Average Precision (mAP) for object detection.
@@ -67,7 +71,7 @@ def validate(test_img_files_path, test_target_files_path, category_list, split_s
         test_img_files_path (str): System path to the image directory containing 
         the test dataset images.
         test_target_files_path (str): System path to the json file containing the 
-        ground-truth for the test dataset.
+        ground-truth labels for the test dataset.
         category_list (list): A list containing all classes which should be detected.
         split_size (int): Size of the grid which is applied to the image.
         batch_size (int): Batch size.
@@ -78,8 +82,10 @@ def validate(test_img_files_path, test_target_files_path, category_list, split_s
         the model.
         num_classes (int): Amount of classes which are being predicted.
         device (): Device which is used for training and testing the model.
-        iou_threshold (float): Threshold for the IoU between the predicted boxes 
-        and the ground-truth boxes.
+        iou_threshold_nms (float): Threshold for the IoU between the predicted boxes 
+        and the ground-truth boxes for non maximum suppression.
+        iou_threshold_map (float): Threshold for the IoU between the predicted boxes 
+        and the ground-truth boxes for mean average precision.
         threshold (float): Threshold for the confidence score of predicted 
         bounding boxes.
         use_nms (bool): Specifies if non max suppression should be applied to the
@@ -96,13 +102,16 @@ def validate(test_img_files_path, test_target_files_path, category_list, split_s
     data.LoadFiles()
     
     # Here will all predicted and ground-truth bounding boxes for the whole test
-    # dataset be stored.
-    # These two lists will be used for evaluation
+    # dataset be stored. These two lists will be finally used for evaluation.
+    # Every element of the list will have the following form:
+    # [image index, class prediction, confidence score, x1, y1, x2, y2]
+    # Every element of the list represents a single bounding box.
     all_pred_boxes = []
     all_target_boxes = []
     
-    train_idx = 0 # Tracks the image index for each image in the test dataset
+    train_idx = 0 # Tracks the sample index for each image in the test dataset
 
+    # This while loop is used to fill the two lists all_pred_boxes and all_target_boxes.
     while len(data.img_files) > 0:
         print("LOADING NEW VALIDATION BATCHES")            
         print("Remaining validation files:" + str(len(data.img_files)))
@@ -120,35 +129,55 @@ def validate(test_img_files_path, test_target_files_path, category_list, split_s
             print('Batch: {}/{} ({:.0f}%)'.format(batch_idx+1, len(data.data), 
                                                   (batch_idx+1) / len(data.data) * 100.))
             print('')
-            pred_boxes = extract_boxes(predictions, num_classes, num_boxes, cell_dim)
-            target_boxes = extract_boxes(target_data, num_classes, 1, cell_dim)
+            pred_boxes = extract_boxes(predictions, num_classes, num_boxes, 
+                                       cell_dim, threshold)
+            target_boxes = extract_boxes(target_data, num_classes, 1, cell_dim, 
+                                         threshold)
             
             for sample_idx in range(len(pred_boxes)):
-                # Applies non max suppression to the bounding box predictions
-                nms_boxes = non_max_suppression(pred_boxes[sample_idx], 
-                                                iou_threshold, threshold, use_nms) 
+                if use_nms:
+                    # Applies non max suppression to the bounding box predictions
+                    nms_boxes = non_max_suppression(pred_boxes[sample_idx], 
+                                                    iou_threshold_nms) 
+                else:
+                    # Use the same list without changing anything
+                    nms_boxes = pred_boxes[sample_idx]
                 
                 for nms_box in nms_boxes:
                     all_pred_boxes.append([train_idx] + nms_box)
                 
                 for box in target_boxes[sample_idx]:
-                    if box[1] > threshold:
-                        all_target_boxes.append([train_idx] + box)
-            
-                print('')
-                print('Processed image ' + str(train_idx))
-                print('')
-                train_idx += 1
-    
-    print('Calculating mAP')
-    mean_avg_prec = mean_average_precision(all_pred_boxes, all_target_boxes, 
-                                           iou_threshold, box_format="corner")
-    print(f"Train mAP: {mean_avg_prec}")
-            
+                    all_target_boxes.append([train_idx] + box)
 
-def extract_boxes(yolo_tensor, num_classes, num_boxes, cell_dim):
+                train_idx += 1
+ 
+    pred = {0:0, 1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0, 10:0, 11:0, 12:0, 13:0}
+    for prediction in all_pred_boxes:
+        cls_idx = prediction[1]
+        pred[cls_idx] += 1
+    print(pred)
+    pred = {0:0, 1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0, 10:0, 11:0, 12:0, 13:0}
+    for prediction in all_target_boxes:
+        cls_idx = prediction[1]
+        pred[cls_idx] += 1
+    print(pred)
+
+    """
+    print('')
+    print('##################### Calculating mAP #####################')
+    print('')
+    mean_avg_prec = mean_average_precision(all_pred_boxes, all_target_boxes, 
+                                           iou_threshold_map, box_format="corner", 
+                                           num_classes = num_classes)
+    #print(f"Train mAP: {mean_avg_prec}")
+    """
+          
+
+def extract_boxes(yolo_tensor, num_classes, num_boxes, cell_dim, threshold):
     """
     Extracts all bounding boxes from a given tensor and transforms them into a list.
+    Removes all bounding boxes which have a confidence score smaller than the 
+    specified threshold.
     
     Parameters:
         yolo_tensor (tensor): The tensor from which the bounding boxes need to 
@@ -156,6 +185,8 @@ def extract_boxes(yolo_tensor, num_classes, num_boxes, cell_dim):
         num_classes (int): Amount of classes which are being predicted.
         num_boxes (int): Amount of bounding boxes which are being predicted.
         cell_dim (int): Dimension of a single cell.
+        threshold (float): Threshold for the confidence score of predicted 
+        bounding boxes.
         
     Returns:
         all_bboxes (list): A list where each element is a list representing one 
@@ -171,14 +202,6 @@ def extract_boxes(yolo_tensor, num_classes, num_boxes, cell_dim):
         for cell_h in range(yolo_tensor.shape[1]):
             for cell_w in range(yolo_tensor.shape[2]):
                 
-                # Used to extract the class with the highest score
-                best_class = 0
-                max_conf = 0.
-                for class_idx in range(num_classes):
-                    if yolo_tensor[sample_idx, cell_h, cell_w, num_boxes*5+class_idx] > max_conf:
-                        max_conf = yolo_tensor[sample_idx, cell_h, cell_w, num_boxes*5+class_idx]
-                        best_class = class_idx
-                
                 # Used to extract the bounding box with the highest confidence 
                 best_box = 0
                 max_conf = 0.               
@@ -186,8 +209,18 @@ def extract_boxes(yolo_tensor, num_classes, num_boxes, cell_dim):
                     if yolo_tensor[sample_idx, cell_h, cell_w, box_idx*5] > max_conf:
                         max_conf = yolo_tensor[sample_idx, cell_h, cell_w, box_idx*5]
                         best_box = box_idx
-                        
                 conf = yolo_tensor[sample_idx, cell_h, cell_w, best_box*5]
+                if conf < threshold:
+                    continue
+                
+                # Used to extract the class with the highest score
+                best_class = 0
+                max_conf = 0.
+                for class_idx in range(num_classes):
+                    if yolo_tensor[sample_idx, cell_h, cell_w, num_boxes*5+class_idx] > max_conf:
+                        max_conf = yolo_tensor[sample_idx, cell_h, cell_w, num_boxes*5+class_idx]
+                        best_class = class_idx
+                        
                 cords = MidtoCorner(yolo_tensor[sample_idx, cell_h, cell_w, 
                                                 best_box*5+1:best_box*5+5], cell_h, cell_w, cell_dim)
                 x1 = cords[0]
@@ -200,33 +233,22 @@ def extract_boxes(yolo_tensor, num_classes, num_boxes, cell_dim):
     return all_bboxes
 
 
-def non_max_suppression(bboxes, iou_threshold, threshold, use_nms):
+def non_max_suppression(bboxes, iou_threshold):
     """
     Applies non maximum suppression to a list of bounding boxes.
     
     Parameters:
         bboxes (list): List of lists containing all bboxes with each bboxes
         specified as [class_pred, conf_score, x1, y1, x2, y2].
-        iou_threshold (float): threshold for the IOU with the ground truth bbox
-        threshold (float): threshold to remove predicted bboxes (independent of IoU).
-        use_nms (bool): Specifies if non max suppression should be applied to the
-        bounding box predictions.
+        iou_threshold (float): Threshold for the IOU with the ground truth bbox.
         
     Returns:
         bboxes_after_nms (list): bboxes after performing NMS given a specific 
         IoU threshold.
-        bboxes (list): If use_nms is set on false, the function returns the same
-        list which was given as input except for the bounding boxes which had
-        confidence score below the threshold.
     """
 
     assert type(bboxes) == list
 
-    bboxes = [box for box in bboxes if box[1] > threshold]
-    if not use_nms:
-        print("Applying the threshold to the prediction")
-        return bboxes
-    print("Applying non maximum suppression to image")
     bboxes = sorted(bboxes, key=lambda x: x[1], reverse=True)
     bboxes_after_nms = []
 
@@ -249,20 +271,22 @@ def non_max_suppression(bboxes, iou_threshold, threshold, use_nms):
     return bboxes_after_nms
 
 
-def mean_average_precision(
-    pred_boxes, true_boxes, iou_threshold=0.5, box_format="midpoint", num_classes=13
-):
+def mean_average_precision(pred_boxes, true_boxes, iou_threshold, box_format, 
+                           num_classes):
     """
-    Calculates mean average precision 
+    Calculates the mean average precision.
+    
     Parameters:
-        pred_boxes (list): list of lists containing all bboxes with each bboxes
-        specified as [train_idx, class_prediction, prob_score, x1, y1, x2, y2]
-        true_boxes (list): Similar as pred_boxes except all the correct ones 
-        iou_threshold (float): threshold where predicted bboxes is correct
-        box_format (str): "midpoint" or "corners" used to specify bboxes
-        num_classes (int): number of classes
+        pred_boxes (list): List of lists containing all predicted bboxes with 
+        each bbox specified as [train_idx, class_prediction, prob_score, x1, y1, x2, y2].
+        true_boxes (list): List of lists containing all ground truth bboxes with 
+        each bbox specified as [train_idx, class_prediction, prob_score, x1, y1, x2, y2].
+        iou_threshold (float): Threshold for counting a predicted bbox as true positive.
+        box_format (str): "midpoint" or "corners" used to specify the bbox format.
+        num_classes (int): Number of classes.
+        
     Returns:
-        float: mAP value across all classes given a specific IoU threshold 
+        float: mAP value across all classes given a specific IoU threshold .
     """
 
     # list storing all AP for respective classes
@@ -272,6 +296,7 @@ def mean_average_precision(
     epsilon = 1e-6
 
     for c in range(num_classes):
+        print('Calculating average precision for class: ' + str(category_list[c]))
         detections = []
         ground_truths = []
 
@@ -350,6 +375,7 @@ def mean_average_precision(
         # torch.trapz for numerical integration
         average_precisions.append(torch.trapz(precisions, recalls))
 
+    print(average_precisions)
     return sum(average_precisions) / len(average_precisions)
 
 
@@ -361,7 +387,7 @@ def main():
     # Initialize model
     model = YOLOv1(split_size, num_boxes, num_classes).to(device)
     
-    # Load model and optimizer parameters
+    # Load model weights
     print("###################### LOADING YOLO MODEL ######################")
     print("")
     model_weights = torch.load(load_model_file)
@@ -372,7 +398,7 @@ def main():
     print("")
     validate(test_img_files_path, test_target_files_path, category_list, split_size,
              batch_size, load_size, model, cell_dim, num_boxes, num_classes, device,
-             iou_threshold, threshold, use_nms)
+             iou_threshold_nms, iou_threshold_map, threshold, use_nms)
 
 
 if __name__ == "__main__":
