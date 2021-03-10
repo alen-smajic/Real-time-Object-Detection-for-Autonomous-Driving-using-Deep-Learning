@@ -155,6 +155,6 @@ We measured the FPS and mAP for the Evaluation and Comparision of YOLO and faste
 
 ### YOLO (left) & Faster R-CNN (right) comparison ### 
 <img align="left" width="390" height="" src="Result%20images%20and%20videos/YOLO/yolo_5.gif">
-<img align="left" width="390" height="" src="Result%20images%20and%20videos/YOLO/yolo_6.gif">
 <img align="right" width="390" height="" src="Result%20images%20and%20videos/Faster%20R-CNN/faster_rcnn_5.gif">
+<img align="left" width="390" height="" src="Result%20images%20and%20videos/YOLO/yolo_6.gif">
 <img align="right" width="390" height="" src="Result%20images%20and%20videos/Faster%20R-CNN/faster_rcnn_6.gif">
