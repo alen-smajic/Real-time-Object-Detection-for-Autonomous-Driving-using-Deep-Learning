@@ -24,6 +24,15 @@
  * [YouTube Video (Faster R-CNN)](https://www.youtube.com/watch?v=3FvUOaxWnmg)
 
 ## Project Description ##
+<img align="left" width="390" height="" src="Result%20images%20and%20videos/Video%20Thumbnails/YOLO.png">
+<img align="right" width="390" height="" src="Result%20images%20and%20videos/Video%20Thumbnails/Faster%20R-CNN.png">
+
+<br/><br/>
+<br/><br/>
+<br/><br/>
+<br/><br/>
+<br/><br/>
+
 Datasets drive vision progress, yet existing driving datasets are limited in terms of visual content, scene variation, the richness of annotations, and the geographic distribution and supported tasks to study multitask learning for autonomous driving.
 In 2018 Yu et al. released BDD100K, the largest driving video dataset with 100K videos and 10 tasks to evaluate the progress of image recognition algorithms on autonomous driving. The dataset possesses geographic, environmental, and weather diversity, which is useful for training models that are less likely to be surprised by new conditions. Provided are bounding box annotations of 13 categories for each of the reference frames of 100K videos and 2D bounding boxes annotated on 100.000 images for "other vehicle", "pedestrian", "traffic light", "traffic sign", "truck", "train", "other person", "bus", "car", "rider", "motorcycle", "bicycle", "trailer".
 
