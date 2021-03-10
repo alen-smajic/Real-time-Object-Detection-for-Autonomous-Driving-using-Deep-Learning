@@ -44,6 +44,8 @@ You can download the dataset [here](https://bdd-data.berkeley.edu/)
 
 ### YOLO ###
 
+The whole YOLO algorithm was implemented completely from scratch.
+
 #### Training YOLO #####
 
 To train the model use the script:
@@ -119,22 +121,22 @@ To execute the script there are the following parameters:
 * ```--video_input``` Flag for video input default: ```False```
 * ```--save_output``` Flag for save images and video with detections visualized, default: ```False```
 
-#### Jupyter Notebook ####
+#### Faster R-CNN from scratch in Jupyter Notebook ####
 
-There is also a selfmade implementation of faster R-CNN:
+We have also implemented the Faster R-CNN algorithm from scratch.
 
     Faster_RCNN_Final.ipynb
 
-The runtime of this implementation is very bad, since no vectorizatio  was used in many places.
+However, the training was very slow because of bad vectorization inside the source code. This is also the reason why we decided to use the Faster R-CNN API.
 
 ## Tools ## 
 * Python 3
 * PyTorch Framework
 * OpenCV
-* TensorFlow2
+* TensorFlow 2
 
 ## Results ##
-We measured the FPS and mAP for the Evaluation and Comparision of YOLO and faster R-CNN on a NVIDIA V100 SXM2 32GB:
+For the evaluation and the comparison of YOLO and Faster R-CNN, we measured the FPS and the mAP on the test dataset of BDD100K using a NVDIA V100 SXM2 32GB GPU.
 
 | Architecture| mAP % | FPS |
 | -------------|:-----:| -----
