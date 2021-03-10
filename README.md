@@ -142,17 +142,18 @@ We measured the FPS and mAP for the Evaluation and Comparision of YOLO and faste
 | Faster R-CNN| 41,8 | 17,1 |
 
 ### YOLO ###
-<img align="center" width="1000" height="" src="Result%20images%20and%20videos/YOLO/ezgif.com-video-to-gif.gif">
-<img align="center" width="1000" height="" src="Result%20images%20and%20videos/YOLO/ezgif.com-video-to-gif(5).gif">
-<img align="center" width="1000" height="" src="Result%20images%20and%20videos/YOLO/ezgif.com-video-to-gif(4).gif">
-<img align="center" width="1000" height="" src="Result%20images%20and%20videos/YOLO/ezgif.com-video-to-gif(3).gif">
-<img align="center" width="1000" height="" src="Result%20images%20and%20videos/YOLO/ezgif.com-video-to-gif(2).gif">
-<img align="center" width="1000" height="" src="Result%20images%20and%20videos/YOLO/ezgif.com-video-to-gif(1).gif">
+<img align="center" width="1000" height="" src="Result%20images%20and%20videos/YOLO/yolo_1.gif">
+<img align="center" width="1000" height="" src="Result%20images%20and%20videos/YOLO/yolo_2.gif">
+<img align="center" width="1000" height="" src="Result%20images%20and%20videos/YOLO/yolo_3.gif">
+<img align="center" width="1000" height="" src="Result%20images%20and%20videos/YOLO/yolo_4.gif">
+<img align="center" width="1000" height="" src="Result%20images%20and%20videos/YOLO/yolo_5.gif">
+<img align="center" width="1000" height="" src="Result%20images%20and%20videos/YOLO/yolo_6.gif">
 
 ### Faster R-CNN ###
 
-<img align="center" width="1000" height="" src="Faster%20R-CNN/videos/faster-RCNN-video1.gif">
-<img align="center" width="1000" height="" src="Faster%20R-CNN/videos/faster-RCNN-video2.gif">
-<img align="center" width="1000" height="" src="Faster%20R-CNN/videos/faster-RCNN-video3.gif">
-<img align="center" width="1000" height="" src="Faster%20R-CNN/videos/faster-RCNN-video4.gif">
-<img align="center" width="1000" height="" src="Faster%20R-CNN/videos/faster-RCNN-video5.gif">
+<img align="center" width="1000" height="" src="Result%20images%20and%20videos/Faster%20R-CNN/faster_rcnn_1.gif">
+<img align="center" width="1000" height="" src="Result%20images%20and%20videos/Faster%20R-CNN/faster_rcnn_2.gif">
+<img align="center" width="1000" height="" src="Result%20images%20and%20videos/Faster%20R-CNN/faster_rcnn_3.gif">
+<img align="center" width="1000" height="" src="Result%20images%20and%20videos/Faster%20R-CNN/faster_rcnn_4.gif">
+<img align="center" width="1000" height="" src="Result%20images%20and%20videos/Faster%20R-CNN/faster_rcnn_5.gif">
+<img align="center" width="1000" height="" src="Result%20images%20and%20videos/Faster%20R-CNN/faster_rcnn_6.gif">
