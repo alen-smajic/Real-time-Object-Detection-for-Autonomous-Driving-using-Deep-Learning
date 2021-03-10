@@ -138,7 +138,7 @@ We measured the FPS and mAP for the Evaluation and Comparision of YOLO and faste
 
 | Architecture| mAP % | FPS |
 | -------------|:-----:| -----
-| YOLO     | ???   | ???? |
+| YOLO     | 18,6 | 212,4 |
 | Faster R-CNN| 41,8 | 17,1 |
 
 ### YOLO ###
