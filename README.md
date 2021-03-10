@@ -142,10 +142,12 @@ We measured the FPS and mAP for the Evaluation and Comparision of YOLO and faste
 | Faster R-CNN| 41,8 | 17,1 |
 
 ### YOLO ###
-<img align="center" width="1000" height="" src="Result%20images/YOLO/output1.gif">
-<img align="center" width="1000" height="" src="Result%20images/YOLO/output2.gif">
-<img align="center" width="1000" height="" src="Result%20images/YOLO/output3.gif">
-<img align="center" width="1000" height="" src="Result%20images/YOLO/output4.gif">
+<img align="center" width="1000" height="" src="Result%20images%20and%20videos/YOLO/ezgif.com-video-to-gif.gif">
+<img align="center" width="1000" height="" src="Result%20images%20and%20videos/YOLO/ezgif.com-video-to-gif(5).gif">
+<img align="center" width="1000" height="" src="Result%20images%20and%20videos/YOLO/ezgif.com-video-to-gif(4).gif">
+<img align="center" width="1000" height="" src="Result%20images%20and%20videos/YOLO/ezgif.com-video-to-gif(3).gif">
+<img align="center" width="1000" height="" src="Result%20images%20and%20videos/YOLO/ezgif.com-video-to-gif(2).gif">
+<img align="center" width="1000" height="" src="Result%20images%20and%20videos/YOLO/ezgif.com-video-to-gif(1).gif">
 
 ### Faster R-CNN ###
 
