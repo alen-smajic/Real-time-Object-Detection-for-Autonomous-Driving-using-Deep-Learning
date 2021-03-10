@@ -23,12 +23,6 @@
  * [YouTube Video (YOLO)](https://www.youtube.com/watch?v=ANQczqZwaY4)
  * [YouTube Video (Faster R-CNN)](https://www.youtube.com/watch?v=3FvUOaxWnmg)
 
-## Tools ## 
-* Python 3
-* PyTorch Framework
-* OpenCV
-* TensorFlow2
-
 ## Project Description ##
 Datasets drive vision progress, yet existing driving datasets are limited in terms of visual content, scene variation, the richness of annotations, and the geographic distribution and supported tasks to study multitask learning for autonomous driving.
 In 2018 Yu et al. released BDD100K, the largest driving video dataset with 100K videos and 10 tasks to evaluate the progress of image recognition algorithms on autonomous driving. The dataset possesses geographic, environmental, and weather diversity, which is useful for training models that are less likely to be surprised by new conditions. Provided are bounding box annotations of 13 categories for each of the reference frames of 100K videos and 2D bounding boxes annotated on 100.000 images for "other vehicle", "pedestrian", "traffic light", "traffic sign", "truck", "train", "other person", "bus", "car", "rider", "motorcycle", "bicycle", "trailer".
@@ -123,6 +117,12 @@ There is also a selfmade implementation of faster R-CNN:
     Faster_RCNN_Final.ipynb
 
 The runtime of this implementation is very bad, since no vectorizatio  was used in many places.
+
+## Tools ## 
+* Python 3
+* PyTorch Framework
+* OpenCV
+* TensorFlow2
 
 ## Results ##
 We measured the FPS and mAP for the Evaluation and Comparision of YOLO and faster R-CNN on a NVIDIA V100 SXM2 32GB:
