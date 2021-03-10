@@ -66,7 +66,7 @@ We provide 2 scripts to detect bounding boxes on images and videos:
 * ```YOLO_to_image.py```
 
 To execute the script you need to specify the following parameters:
-* ```--weights``` ```-w``` path to the modell weights 
+* ```--weights``` ```-w``` path to the model weights 
 * ```--threshold``` ```-t``` (default: 0.5) threshold for the confidence score of the bounding box prediction
 * ```--split_size``` ```-ss``` (default: 14) size of the grid which is applied to the image for predicting bounding boxes
 * ```--num_boxes``` ```-nb``` (default: 2) amount of bounding boxes which are being predicted per grid cell
