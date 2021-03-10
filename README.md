@@ -26,8 +26,8 @@ In 2018 Yu et al. released BDD100K, the largest driving video dataset with 100K 
 The goal of our project is to detect and classify traffic objects in a video in real-time using two approaches. We trained the two state-of-the-art models YOLO and Faster R-CNN on the Berkeley DeepDrive dataset to compare their performances and achieve a comparable mAP to the current state-of-the-art on BDD100K, which is 45.7 using a hybrid incremental net. We will focus on the context of autonomous driving and compare the models performances on a live video measuring FPS and mAP.
 
 ## Publications ##
- * **[YouTube Video (YOLO)](https://www.youtube.com/watch?v=ANQczqZwaY4)
- * **[YouTube Video (Faster R-CNN)](https://www.youtube.com/watch?v=3FvUOaxWnmg)
+ * [YouTube Video (YOLO)](https://www.youtube.com/watch?v=ANQczqZwaY4)
+ * [YouTube Video (Faster R-CNN)](https://www.youtube.com/watch?v=3FvUOaxWnmg)
 
 ### Dataset ###
 
