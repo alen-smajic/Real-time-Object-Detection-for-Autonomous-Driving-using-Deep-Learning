@@ -96,30 +96,30 @@ An example execution for videos would be:
 ### Faster R-CNN ###
 
 To use Faster R-CNN you have to configure the Tensorflow 2 object detection API.
-You can follow this [tutorial](https://github.com/TannerGilbert/Tensorflow-Object-Detection-API-Train-Model) for training, validation, and export of an object detection model.
+You can follow this [tutorial](https://github.com/TannerGilbert/Tensorflow-Object-Detection-API-Train-Model) which shows how to train, validate and export a custom object detection model.
 
 #### Prediction #####
 
-To predict images/videos from a folder you can navigate for example to the path of ```detect_objects.py```.
+To predict images/videos from a specific folder, you can use the script: ```detect_objects.py``` 
 
-An example execution for predict on images would be:
+An example execution for making predictions on images would be:
 
     python3 detect_objects.py --model_path models/inference_graph/saved_model --path_to_labelmap models/label_map.pbtxt --images_dir data/samples/images/ --save_output  
     
-An example execution for predict on a video would be:
+An example execution for making predictions on a video would be:
 
     python3 detect_objects.py --model_path models/inference_graph/saved_model --path_to_labelmap models/label_map.pbtxt --video_input --video_path data/video_samples/1.mov --save_output
 
-To execute the script there are the following parameters:
-* ```--model_pat``` Path to frozen detection model, default=```models/efficientdet_d0_coco17_tpu-32/saved_model```
-* ```--path_to_labelmap``` Path to labelmap (.pbtxt) file
-* ```--class_ids``` id of classes to detect, expects string with ids delimited by ","
-* ```--threshold``` Detection Threshold, default=```0.4```
-* ```--images_dir``` Directory to input images, ```default='data/samples/images/```
+To execute the script you need to specify the following parameters:
+* ```--model_path``` System path to the frozen detection model, default=```models/efficientdet_d0_coco17_tpu-32/saved_model```
+* ```--path_to_labelmap``` Path to the labelmap (.pbtxt) file
+* ```--class_ids``` IDs of classes to detect, expects string with IDs separated by ","
+* ```--threshold``` Detection Ttreshold, default=```0.4```
+* ```--images_dir``` Directory to input images, default=```'data/samples/images/```
 * ```--video_path``` Path to input video
-* ```--output_directory``` Path to output images and video, default=```data/samples/output```
-* ```--video_input``` Flag for video input default: ```False```
-* ```--save_output``` Flag for save images and video with detections visualized, default: ```False```
+* ```--output_directory``` Path to output images/video, default=```data/samples/output```
+* ```--video_input``` Flag for video input, default=```False```
+* ```--save_output``` Flag for saveing images and video with visualized detections, default=```False```
 
 #### Faster R-CNN from scratch in Jupyter Notebook ####
 
