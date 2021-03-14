@@ -42,6 +42,10 @@ The goal of our project is to detect and classify traffic objects in a video in 
 
 You can download the dataset [here](https://bdd-data.berkeley.edu/)
 
+### Model Weights ###
+
+You can download the model weights for YOLO and Faster R-CNN at the following [link](https://drive.google.com/drive/folders/1NGOnVfMcpzedTR0NurP05FXd8zxsF9JI?usp=sharing)
+
 ### YOLO ###
 
 The whole YOLO algorithm was implemented completely from scratch.
