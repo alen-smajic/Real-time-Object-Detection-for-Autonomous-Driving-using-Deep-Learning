@@ -22,6 +22,7 @@
 ## Publications ##
  * [YouTube Video (YOLO)](https://www.youtube.com/watch?v=ANQczqZwaY4)
  * [YouTube Video (Faster R-CNN)](https://www.youtube.com/watch?v=3FvUOaxWnmg)
+ * [ResearchGate](https://www.researchgate.net/publication/350090136_Real-time_Object_Detection_for_Autonomous_Driving_using_Deep_Learning)
 
 ## Project Description ##
 <img align="left" width="390" height="" src="Result%20images%20and%20videos/Video%20Thumbnails/YOLO.png">
