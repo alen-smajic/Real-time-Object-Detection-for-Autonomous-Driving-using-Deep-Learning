@@ -46,6 +46,13 @@ You can download the dataset [here](https://bdd-data.berkeley.edu/)
 
 You can download the model weights for YOLO and Faster R-CNN at the following [link](https://drive.google.com/drive/folders/1NGOnVfMcpzedTR0NurP05FXd8zxsF9JI?usp=sharing)
 
+To use our predefined parameters for Faster R-CNN please make sure to download each model weight file and configure it in the following way:
+
+    Faster R-CNN\training\ckpt-26.data-00000-of-00001
+    Faster R-CNN\models\inference_graph\checkpoint\ckpt-0.data-00000-of-00001
+    Faster R-CNN\models\inference_graph\saved_model\variables\variables.data-00000-of-00001
+
+
 ### YOLO ###
 
 The whole YOLO algorithm was implemented completely from scratch.
